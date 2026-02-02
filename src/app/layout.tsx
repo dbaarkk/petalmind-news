@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
@@ -9,6 +9,14 @@ import Script from "next/script";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#facc15",
+};
+
 export const metadata: Metadata = {
   title: "PETALMIND | Premium Indian News",
   description: "Real-time, full-story news from trusted Indian sources. The most immersive news experience in India.",
@@ -16,13 +24,6 @@ export const metadata: Metadata = {
   icons: {
     icon: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/d2d4de2a-e8c2-4859-ad74-b536250785a9/file_0000000032287206a5d0bae7564bffd9-1770008749368.png?width=32&height=32&resize=contain",
     apple: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/d2d4de2a-e8c2-4859-ad74-b536250785a9/file_0000000032287206a5d0bae7564bffd9-1770008749368.png?width=180&height=180&resize=contain",
-  },
-  themeColor: "#facc15",
-  viewport: {
-    width: "device-width",
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
   },
 };
 
