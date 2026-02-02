@@ -21,6 +21,14 @@ const nextConfig: NextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
   },
+  experimental: {
+    serverActions: {
+      allowedOrigins: [
+        "3000-f1f07c46-5268-4ad4-a968-093605d0047f.orchids.cloud",
+        "3000-f1f07c46-5268-4ad4-a968-093605d0047f.proxy.daytona.works"
+      ]
+    }
+  },
   turbopack: {
     rules: {
       "*.{jsx,tsx}": {
