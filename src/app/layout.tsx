@@ -20,11 +20,12 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: "PETALMIND | Premium Indian News",
-  description: "Real-time, full-story news from trusted Indian sources. The most immersive news experience in India.",
+  description:
+    "Real-time, full-story news from trusted Indian sources. The most immersive news experience in India.",
   manifest: "/manifest.json",
   icons: {
-    icon: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/d2d4de2a-e8c2-4859-ad74-b536250785a9/file_0000000032287206a5d0bae7564bffd9-1770008749368.png?width=32&height=32&resize=contain",
-    apple: "https://slelguoygbfzlpylpxfs.supabase.co/storage/v1/render/image/public/project-uploads/d2d4de2a-e8c2-4859-ad74-b536250785a9/file_0000000032287206a5d0bae7564bffd9-1770008749368.png?width=180&height=180&resize=contain",
+    icon: "/file_0000000032287206a5d0bae7564bffd9.png",
+    apple: "/file_0000000032287206a5d0bae7564bffd9.png",
   },
 };
 
@@ -53,15 +54,15 @@ export default function RootLayout({
           data-debug="true"
           data-custom-data='{"appName": "YourApp", "version": "1.0.0", "greeting": "hi"}'
         />
-          <div className="mx-auto min-h-screen max-w-2xl border-x bg-white pb-20 md:pb-0">
-            <Navbar />
-            <main>
-              <Suspense fallback={<div className="p-4">Loading...</div>}>
-                {children}
-              </Suspense>
-            </main>
-            <BottomNav />
-          </div>
+        <div className="mx-auto min-h-screen max-w-2xl border-x bg-white pb-20 md:pb-0">
+          <Navbar />
+          <main>
+            <Suspense fallback={<div className="p-4">Loading...</div>}>
+              {children}
+            </Suspense>
+          </main>
+          <BottomNav />
+        </div>
 
         <VisualEditsMessenger />
       </body>
