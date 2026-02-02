@@ -21,34 +21,40 @@ export async function getArticles(options: {
   offset?: number;
 } = {}) {
   const { category, search, limit = 20, offset = 0 } = options;
-  const client = await pool.connect();
-
+  
   try {
-    let query = `SELECT * FROM articles WHERE 1=1`;
-    const params: any[] = [];
+    const client = await pool.connect();
+    try {
+      let query = `SELECT * FROM articles WHERE 1=1`;
+      const params: any[] = [];
 
-    if (category && category !== 'All News' && category !== 'general') {
-      params.push(category);
-      query += ` AND category = $${params.length}`;
+      if (category && category !== 'All News' && category !== 'general') {
+        params.push(category);
+        query += ` AND category = $${params.length}`;
+      }
+
+      if (search) {
+        params.push(`%${search}%`);
+        query += ` AND (title ILIKE $${params.length} OR summary ILIKE $${params.length})`;
+      }
+
+      query += ` ORDER BY publish_date DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
+      params.push(limit, offset);
+
+      const result = await client.query(query, params);
+      return result.rows as Article[];
+    } finally {
+      client.release();
     }
-
-    if (search) {
-      params.push(`%${search}%`);
-      query += ` AND (title ILIKE $${params.length} OR summary ILIKE $${params.length})`;
-    }
-
-    query += ` ORDER BY publish_date DESC LIMIT $${params.length + 1} OFFSET $${params.length + 2}`;
-    params.push(limit, offset);
-
-    const result = await client.query(query, params);
-    return result.rows as Article[];
-  } finally {
-    client.release();
+  } catch (err) {
+    console.error('Error in getArticles:', err);
+    return [];
   }
 }
 
 export async function getTrendingKeywords(limit: number = 10) {
-  const client = await pool.connect();
+  try {
+    const client = await pool.connect();
     try {
       const query = `
         SELECT word, count(*) FROM (
@@ -71,19 +77,27 @@ export async function getTrendingKeywords(limit: number = 10) {
         LIMIT $1
       `;
       const result = await client.query(query, [limit]);
-
-    return result.rows.map(row => row.word);
-  } finally {
-    client.release();
+      return result.rows.map(row => row.word);
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error('Error in getTrendingKeywords:', err);
+    return [];
   }
 }
 
 export async function getArticleById(id: string) {
-  const client = await pool.connect();
   try {
-    const result = await client.query('SELECT * FROM articles WHERE id = $1', [id]);
-    return result.rows[0] as Article | null;
-  } finally {
-    client.release();
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM articles WHERE id = $1', [id]);
+      return result.rows[0] as Article | null;
+    } finally {
+      client.release();
+    }
+  } catch (err) {
+    console.error('Error in getArticleById:', err);
+    return null;
   }
 }
