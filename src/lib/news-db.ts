@@ -1,3 +1,5 @@
+"use server";
+
 import pool from './db';
 
 export interface Article {
