@@ -6,6 +6,7 @@ import BottomNav from "@/components/BottomNav";
 import { VisualEditsMessenger } from "orchids-visual-edits";
 import ErrorReporter from "@/components/ErrorReporter";
 import Script from "next/script";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -52,11 +53,16 @@ export default function RootLayout({
           data-debug="true"
           data-custom-data='{"appName": "YourApp", "version": "1.0.0", "greeting": "hi"}'
         />
-        <div className="mx-auto min-h-screen max-w-2xl border-x bg-white pb-20 md:pb-0">
-          <Navbar />
-          <main>{children}</main>
-          <BottomNav />
-        </div>
+          <div className="mx-auto min-h-screen max-w-2xl border-x bg-white pb-20 md:pb-0">
+            <Navbar />
+            <main>
+              <Suspense fallback={<div className="p-4">Loading...</div>}>
+                {children}
+              </Suspense>
+            </main>
+            <BottomNav />
+          </div>
+
         <VisualEditsMessenger />
       </body>
     </html>
